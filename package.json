@@ -1,0 +1,54 @@
+{
+  "name": "mirrorcore-relationship-therapist",
+  "version": "1.0.0",
+  "description": "MirrorCore Relationship Therapist System with modern UI and AI-powered analysis",
+  "main": "index.js",
+  "scripts": {
+    "start": "python main_simple.py",
+    "start:dev": "python main_simple.py --debug",
+    "demo": "./demo_script.sh",
+    "test:websocket": "./test_websocket.py",
+    "test:api": "./test_api_interactive.py",
+    "install:deps": "./install_demo_deps.sh",
+    "init:db": "python init_db.py",
+    "build:frontend": "cd frontend && npm install && npm run build",
+    "lint": "eslint static/js/*.js",
+    "format": "prettier --write static/js/*.js static/css/*.css templates/*.html"
+  },
+  "author": "MirrorCore Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mirrorcore/relationship-therapist"
+  },
+  "keywords": [
+    "relationship",
+    "therapy",
+    "ai",
+    "nlp",
+    "sentiment-analysis",
+    "communication-patterns",
+    "dashboard",
+    "analytics",
+    "mirrorcore",
+    "fastapi"
+  ],
+  "dependencies": {
+    "chart.js": "^4.3.0",
+    "marked": "^8.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.43.0",
+    "prettier": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0",
+    "python": ">=3.7.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "not dead",
+    "not ie 11"
+  ]
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirrorCore - Relationship AI</title>
+    <link rel="stylesheet" href="/static/css/modern.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🧠</span>
+                    <span class="logo-text">MirrorCore</span>
+                </div>
+                <nav class="nav">
+                    <button class="nav-item active" data-section="dashboard">Dashboard</button>
+                    <button class="nav-item" data-section="chat">Chat</button>
+                    <button class="nav-item" data-section="analysis">Analysis</button>
+                    <button class="nav-item" data-section="reports">Reports</button>
+                </nav>
+                <div class="header-actions">
+                    <div class="status-indicator online">
+                        <span class="status-dot"></span>
+                        Online
+                    </div>
+                    <button class="user-menu">User</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="section active">
+                <!-- Hero Card -->
+                <div class="hero-card">
+                    <h1>Welcome to MirrorCore</h1>
+                    <p>AI-powered relationship analysis and insights</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" id="start-analysis">Start Analysis</button>
+                        <button class="btn btn-secondary" id="open-chat">Open Chat</button>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="total-analyses">0</div>
+                            <div class="stat-label">Total Analyses</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💭</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="avg-sentiment">-</div>
+                            <div class="stat-label">Avg Sentiment</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="total-reports">0</div>
+                            <div class="stat-label">Reports</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✨</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="success-rate">-</div>
+                            <div class="stat-label">Success Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="content-grid">
+                    <!-- Quick Analysis -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Quick Analysis</h3>
+                            <p>Analyze conversation instantly</p>
+                        </div>
+                        <div class="card-content">
+                            <form id="quick-analysis-form">
+                                <textarea 
+                                    id="conversation-input" 
+                                    placeholder="Paste your conversation here..." 
+                                    rows="6"
+                                ></textarea>
+                                <button type="submit" class="btn btn-primary btn-full">Analyze Conversation</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Recent Activity</h3>
+                            <p>Your latest analyses</p>
+                        </div>
+                        <div class="card-content">
+                            <div id="recent-activity" class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon">📊</div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Welcome to MirrorCore</div>
+                                        <div class="activity-time">Start your first analysis</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chat Section -->
+            <section id="chat-section" class="section">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <h2>AI Therapist Chat</h2>
+                        <p>Get personalized relationship guidance</p>
+                    </div>
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message ai-message">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-text">Hello! I'm your AI relationship therapist. How can I help you today?</div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="chat-form" id="chat-form">
+                        <input type="text" id="chat-input" placeholder="Type your message..." />
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Analysis Section -->
+            <section id="analysis-section" class="section">
+                <div class="analysis-container">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Conversation Analysis</h2>
+                            <p>Upload or paste conversation for detailed analysis</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="upload-area" id="upload-area">
+                                <div class="upload-icon">📁</div>
+                                <div class="upload-text">
+                                    <h4>Upload Conversation File</h4>
+                                    <p>Drag and drop or click to select</p>
+                                </div>
+                                <input type="file" id="file-input" accept=".txt,.csv" hidden>
+                            </div>
+                            <div class="divider">or</div>
+                            <textarea 
+                                id="analysis-input" 
+                                placeholder="Paste conversation text here..." 
+                                rows="8"
+                            ></textarea>
+                            <button class="btn btn-primary btn-full" id="analyze-btn">Analyze Conversation</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Analysis Results -->
+                    <div id="analysis-results" class="analysis-results hidden">
+                        <div class="results-grid">
+                            <div class="result-card">
+                                <h4>Sentiment Analysis</h4>
+                                <canvas id="sentiment-chart"></canvas>
+                            </div>
+                            <div class="result-card">
+                                <h4>Communication Patterns</h4>
+                                <div id="communication-insights"></div>
+                            </div>
+                            <div class="result-card">
+                                <h4>Relationship Health</h4>
+                                <div id="health-score"></div>
+                            </div>
+                            <div class="result-card">
+                                <h4>Recommendations</h4>
+                                <div id="recommendations"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports-section" class="section">
+                <div class="reports-container">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Analysis Reports</h2>
+                            <p>View and download your analysis history</p>
+                        </div>
+                        <div class="card-content">
+                            <div id="reports-list" class="reports-list">
+                                <div class="empty-state">
+                                    <div class="empty-icon">📋</div>
+                                    <h4>No reports yet</h4>
+                                    <p>Start analyzing conversations to generate reports</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Analyzing conversation...</div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/modern-dashboard.js"></script>
+</body>
+</html>

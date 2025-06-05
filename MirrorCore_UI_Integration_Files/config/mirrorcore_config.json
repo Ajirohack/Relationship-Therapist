@@ -1,0 +1,45 @@
+{
+  "app_name": "MirrorCore",
+  "version": "0.1.0",
+  "stages": ["APP", "FPP", "RPP"],
+  "default_stage": "APP",
+  "scoring": {
+    "trust_threshold": 60,
+    "openness_threshold": 40,
+    "window_size": 10,
+    "metrics": {
+      "sentiment": 0.2,
+      "message_length": 0.1,
+      "response_latency": 0.1,
+      "question_ratio": 0.15,
+      "personal_pronouns": 0.1,
+      "intimacy_keywords": 0.15,
+      "reciprocation": 0.1,
+      "attachment_cues": 0.05,
+      "politeness": 0.05
+    }
+  },
+  "ui": {
+    "show_stage": true,
+    "show_scores": true,
+    "show_recommendations": true,
+    "show_trust_thermometer": true,
+    "show_stage_history": true
+  },
+  "fmt": {
+    "auto_load": true,
+    "variation_probability": 0.7
+  },
+  "stage_transitions": {
+    "APP_to_FPP": {
+      "trust_min": 60,
+      "openness_min": 40,
+      "consecutive_meaningful_min": 3
+    },
+    "FPP_to_RPP": {
+      "trust_min": 75,
+      "openness_min": 60,
+      "flags_required": ["answered_fears"]
+    }
+  }
+}

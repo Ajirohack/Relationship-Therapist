@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../../build/new_data/MirrorCore_Enhanced"
+		},
+		{
+			"path": "../../../webui"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {}
+}

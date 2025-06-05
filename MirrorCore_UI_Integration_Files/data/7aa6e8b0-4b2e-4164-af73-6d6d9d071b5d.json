@@ -1,0 +1,36 @@
+{
+  "user_id": "test-user",
+  "session_id": "7aa6e8b0-4b2e-4164-af73-6d6d9d071b5d",
+  "created_at": "2025-06-04T11:36:33.366312",
+  "stage": "APP",
+  "scores": {
+    "trust": 15.1,
+    "open": 12.6
+  },
+  "messages": [
+    {
+      "sender": "client",
+      "text": "Hello",
+      "timestamp": "2025-06-04T11:36:33.365590"
+    }
+  ],
+  "stage_history": [
+    {
+      "timestamp": "2025-06-04T11:36:33.366325",
+      "stage": "APP",
+      "scores": {
+        "trust": 0,
+        "open": 0
+      }
+    },
+    {
+      "timestamp": "2025-06-04T11:36:33.368952",
+      "stage": "APP",
+      "scores": {
+        "trust": 15.1,
+        "open": 12.6
+      }
+    }
+  ],
+  "last_updated": "2025-06-04T11:36:33.368938"
+}

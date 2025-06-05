@@ -1,0 +1,21 @@
+{
+  "fmt_id": "APP-001",
+  "fmt_name": "Icebreaker",
+  "stage": "APP",
+  "trigger": "initial_contact",
+  "goals": [
+    "establish_rapport",
+    "gather_basic_info"
+  ],
+  "tone": "friendly_professional",
+  "core_message": "Hi there! I'm Diego, your relationship coach. I'm here to help you navigate your relationship journey. What brings you here today?",
+  "variations": [
+    "Hello! I'm Diego, a relationship coach. I'm excited to work with you on your relationship goals. What's on your mind?",
+    "Welcome! My name is Diego and I specialize in relationship coaching. I'd love to hear what brought you here today."
+  ],
+  "attachment": null,
+  "ai_behaviors": [
+    "active_listening",
+    "open_questions"
+  ]
+}

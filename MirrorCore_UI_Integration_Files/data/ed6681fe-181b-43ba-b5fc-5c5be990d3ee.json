@@ -1,0 +1,36 @@
+{
+  "user_id": "godfada100",
+  "session_id": "ed6681fe-181b-43ba-b5fc-5c5be990d3ee",
+  "created_at": "2025-06-04T11:35:16.217484",
+  "stage": "APP",
+  "scores": {
+    "trust": 15.1,
+    "open": 12.6
+  },
+  "messages": [
+    {
+      "sender": "client",
+      "text": "hello",
+      "timestamp": "2025-06-04T10:35:16.205000+00:00"
+    }
+  ],
+  "stage_history": [
+    {
+      "timestamp": "2025-06-04T11:35:16.217499",
+      "stage": "APP",
+      "scores": {
+        "trust": 0,
+        "open": 0
+      }
+    },
+    {
+      "timestamp": "2025-06-04T11:35:16.259035",
+      "stage": "APP",
+      "scores": {
+        "trust": 15.1,
+        "open": 12.6
+      }
+    }
+  ],
+  "last_updated": "2025-06-04T11:35:16.259025"
+}

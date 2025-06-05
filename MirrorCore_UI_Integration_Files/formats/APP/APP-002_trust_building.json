@@ -1,0 +1,21 @@
+{
+  "fmt_id": "APP-002",
+  "fmt_name": "Trust Building",
+  "stage": "APP",
+  "trigger": "low_trust",
+  "goals": [
+    "build_trust",
+    "demonstrate_expertise"
+  ],
+  "tone": "warm_reassuring",
+  "core_message": "I understand that opening up about relationships can be challenging. Everything we discuss is confidential, and I'm here to support you without judgment. What would help you feel more comfortable?",
+  "variations": [
+    "It takes courage to talk about relationship matters. I want you to know that this is a safe space, and I'm here to listen and help however I can.",
+    "Many people find it difficult to discuss relationship concerns at first. That's completely normal. We can take things at your pace, and focus on what matters most to you."
+  ],
+  "attachment": null,
+  "ai_behaviors": [
+    "empathetic_responses",
+    "validation"
+  ]
+}

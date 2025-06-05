@@ -1,0 +1,493 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: "Roboto", Arial, sans-serif;
+  color: #fff;
+}
+
+body {
+  background: url("/static/ChatGPT Image May 30, 2025 at 08_45_25 PM.png")
+    center/cover no-repeat fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 1.5s ease-out;
+}
+
+body.zoomed-in {
+  transform: scale(1.2);
+}
+
+/* Authentication styles */
+#auth-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 1000;
+  transition: opacity 0.8s ease-out;
+}
+
+.auth-panel {
+  background: rgba(0, 10, 30, 0.6);
+  backdrop-filter: blur(8px);
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 400px;
+  width: 90%;
+}
+
+.auth-panel h1 {
+  margin-top: 0;
+  color: #66d9ef;
+  font-size: 28px;
+}
+
+.pin-input-container {
+  margin: 30px 0;
+}
+
+#pin-input {
+  background: rgba(0, 10, 20, 0.6);
+  border: 1px solid rgba(102, 217, 239, 0.3);
+  color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 24px;
+  width: 150px;
+  text-align: center;
+  letter-spacing: 8px;
+}
+
+#login-button {
+  background: #2176ff;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#login-button:hover {
+  background: #1a65d6;
+}
+
+/* Main container */
+#main-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.8s ease-in;
+}
+
+#main-container.visible {
+  opacity: 1;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Chat container with glassy effect */
+#chat-container {
+  width: 400px;
+  max-height: 80vh;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 10, 30, 0.5);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+}
+
+/* Messages container */
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  color: #fff;
+  margin-bottom: 16px;
+  padding: 10px;
+  max-height: 300px;
+  border-radius: 8px;
+  background: rgba(0, 10, 20, 0.3);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(102, 217, 239, 0.3) rgba(0, 10, 20, 0.3);
+}
+
+/* Scrollbar styling */
+#messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#messages::-webkit-scrollbar-track {
+  background: rgba(0, 10, 20, 0.3);
+  border-radius: 8px;
+}
+
+#messages::-webkit-scrollbar-thumb {
+  background-color: rgba(102, 217, 239, 0.3);
+  border-radius: 8px;
+}
+
+/* Move control buttons below the chat form */
+.control-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  z-index: 10;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+}
+
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  color: #fff;
+  margin-bottom: 16px;
+  padding: 10px;
+  max-height: 300px;
+  border-radius: 8px;
+  background: rgba(0, 10, 20, 0.3);
+}
+
+/* Message bubbles */
+.message {
+  margin: 10px 0;
+  line-height: 1.5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 80%;
+  word-wrap: break-word;
+  display: flex;
+}
+
+/* Message text container */
+.message-text {
+  display: inline-block;
+  padding: 0;
+}
+
+/* User message styling */
+.user {
+  text-align: right;
+  margin-left: auto;
+  background: rgba(33, 118, 255, 0.3);
+  border-top-right-radius: 2px;
+}
+
+/* Bot message styling */
+.bot {
+  text-align: left;
+  margin-right: auto;
+  background: rgba(0, 10, 30, 0.5);
+  color: #66d9ef;
+  border-top-left-radius: 2px;
+}
+
+.user {
+  text-align: right;
+}
+
+.bot {
+  text-align: left;
+  color: #66d9ef;
+}
+
+#chat-form {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+#input {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px 0 0 8px;
+  background: rgba(0, 10, 20, 0.6);
+  color: #fff;
+  font-size: 14px;
+}
+
+button[type="submit"] {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  background: #2176ff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button[type="submit"]:hover {
+  background: #1a65d6;
+}
+
+.settings-group {
+  margin-bottom: 15px;
+}
+
+.settings-group h3 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #66d9ef;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.settings-label {
+  font-size: 14px;
+}
+
+.settings-control {
+  width: 120px;
+}
+
+select,
+input[type="text"],
+input[type="number"] {
+  background: rgba(0, 10, 20, 0.6);
+  border: 1px solid rgba(102, 217, 239, 0.3);
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 10, 20, 0.6);
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+  background-color: #66d9ef;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+}
+
+.simulation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.simulation-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #66d9ef;
+}
+
+.simulation-status {
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(0, 100, 0, 0.3);
+}
+
+.simulation-status.active {
+  background: rgba(0, 200, 100, 0.3);
+}
+
+.simulation-status.paused {
+  background: rgba(200, 150, 0, 0.3);
+}
+
+.simulation-content {
+  flex: 1;
+  overflow-y: auto;
+  background: rgba(0, 10, 20, 0.3);
+  border-radius: 8px;
+  padding: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.simulation-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+#save-settings {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #2176ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#save-settings:hover {
+  background: #1a65d6;
+}
+
+/* Error state for PIN input */
+#pin-input.error {
+  border-color: rgba(255, 100, 100, 0.8);
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Glassy slide-out panels */
+#settings-panel,
+#simulation-panel {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%) translateX(100%);
+  background: rgba(0, 10, 30, 0.7);
+  backdrop-filter: blur(15px);
+  border-radius: 16px 0 0 16px;
+  padding: 20px;
+  width: 300px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 100;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#settings-panel.visible,
+#simulation-panel.visible {
+  transform: translateY(-50%) translateX(0);
+}
+
+.icon-button {
+  background: rgba(0, 30, 60, 0.5);
+  border: none;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  padding: 0;
+}
+
+.icon-button:hover {
+  background: rgba(0, 50, 100, 0.7);
+}
+
+.icon-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Simulation panel specific styles */
+#simulation-panel {
+  z-index: 101; /* Ensure it's above other elements */
+  color: #fff;
+  border-left: 2px solid rgba(102, 217, 239, 0.3);
+}
+
+.simulation-content {
+  background: rgba(0, 10, 20, 0.5) !important;
+  border: 1px solid rgba(102, 217, 239, 0.2);
+  margin-bottom: 15px;
+  max-height: 400px;
+}
+
+.simulation-status {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+}
+
+.simulation-status.active {
+  color: #4eff91;
+}
+
+.simulation-status.paused {
+  color: #ffcc29;
+}
+
+/* Ensure simulation controls are properly spaced */
+.simulation-controls .control-buttons {
+  margin-top: 0;
+  justify-content: center;
+}

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relationship Therapist - Test Interface</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f8fa;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #2c5282;
+        }
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
+        button {
+            background-color: #4c7bf3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3b5cd9;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f0f7ff;
+            border-left: 4px solid #4c7bf3;
+        }
+        .sentiment {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        .sentiment-meter {
+            height: 20px;
+            width: 300px;
+            background-color: #eee;
+            border-radius: 10px;
+            margin-left: 10px;
+            overflow: hidden;
+        }
+        .sentiment-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b 0%, #ffe066 50%, #69db7c 100%);
+            border-radius: 10px;
+        }
+        .recommendations {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .recommendations li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #4c7bf3;
+        }
+        .red-flags {
+            background-color: #fff5f5;
+            border-left: 4px solid #e53e3e;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Relationship Therapist</h1>
+        <p>Enter a conversation below to analyze sentiment, detect patterns, and receive relationship advice.</p>
+        
+        <textarea id="conversation" placeholder="Enter conversation here... 
+Example:
+Person A: I really appreciate how you helped with dinner last night. It meant a lot to me.
+Person B: Of course! I know you've been working hard. I enjoy cooking with you.
+Person A: We make a good team. I was thinking we could look at our budget this weekend?
+Person B: That's a great idea. I've been meaning to discuss our savings plan for the house.
+Person A: Perfect. I love how we're on the same page about our financial goals."></textarea>
+        
+        <button id="analyze">Analyze Conversation</button>
+        
+        <div id="results" class="results" style="display: none;">
+            <h2>Analysis Results</h2>
+            
+            <h3>Sentiment Analysis</h3>
+            <div class="sentiment">
+                <span id="sentiment-label">Positive</span>
+                <div class="sentiment-meter">
+                    <div id="sentiment-bar" class="sentiment-bar" style="width: 80%;"></div>
+                </div>
+                <span id="sentiment-score">0.8</span>
+            </div>
+            
+            <h3>Communication Style</h3>
+            <p id="communication-style">Balanced communication style with good turn-taking.</p>
+            
+            <h3>Topics Detected</h3>
+            <p id="topics">Communication, Finances, Household</p>
+            
+            <h3>Relationship Recommendations</h3>
+            <ul id="recommendations" class="recommendations">
+                <li>Continue to express appreciation regularly to maintain positive feelings.</li>
+                <li>Schedule regular financial check-ins to stay aligned on goals.</li>
+                <li>Build on your effective teamwork by trying new activities together.</li>
+            </ul>
+            
+            <div id="red-flags" class="red-flags" style="display: none;">
+                <h3>Potential Concerns</h3>
+                <p id="red-flags-content"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple sentiment analysis function
+        function analyzeSentiment(text) {
+            // Define positive and negative word lists
+            const positiveWords = ['appreciate', 'love', 'happy', 'great', 'enjoy', 'good', 'perfect', 'thank', 'special', 'wonderful'];
+            const negativeWords = ['never', 'hate', 'angry', 'upset', 'annoyed', 'bad', 'terrible', 'awful', 'wrong', 'fault'];
+            
+            const lowerText = text.toLowerCase();
+            
+            // Count positive and negative words
+            let positiveCount = 0;
+            let negativeCount = 0;
+            
+            positiveWords.forEach(word => {
+                const regex = new RegExp('\\b' + word + '\\b', 'g');
+                const matches = lowerText.match(regex);
+                if (matches) positiveCount += matches.length;
+            });
+            
+            negativeWords.forEach(word => {
+                const regex = new RegExp('\\b' + word + '\\b', 'g');
+                const matches = lowerText.match(regex);
+                if (matches) negativeCount += matches.length;
+            });
+            
+            // Calculate sentiment score (between -1 and 1)
+            const totalWords = text.split(/\s+/).length;
+            const positiveScore = positiveCount / totalWords;
+            const negativeScore = negativeCount / totalWords;
+            const sentimentScore = (positiveScore - negativeScore) * 5; // Amplify for better visibility
+            
+            // Ensure the score is between -1 and 1
+            const normalizedScore = Math.max(-1, Math.min(1, sentimentScore));
+            
+            // Convert to 0-1 scale for UI
+            const uiScore = (normalizedScore + 1) / 2;
+            
+            // Determine sentiment label
+            let sentimentLabel = "neutral";
+            if (normalizedScore > 0.2) sentimentLabel = "positive";
+            if (normalizedScore < -0.2) sentimentLabel = "negative";
+            
+            return {
+                sentiment: sentimentLabel,
+                score: uiScore,
+                details: {
+                    positive_score: positiveScore,
+                    negative_score: negativeScore,
+                    neutral_score: 1 - (positiveScore + negativeScore)
+                }
+            };
+        }
+        
+        // Topic detection
+        function detectTopics(text) {
+            const topicKeywords = {
+                "communication": ["talk", "discuss", "listen", "conversation", "communicate"],
+                "finances": ["money", "budget", "financial", "savings", "spend", "cost"],
+                "relationship": ["relationship", "together", "love", "feel", "care", "partner"],
+                "family": ["family", "parents", "kids", "children", "relatives"],
+                "work": ["job", "work", "career", "office", "boss", "colleague"],
+                "household": ["house", "home", "chores", "clean", "cooking", "dinner"],
+                "emotions": ["feel", "emotion", "happy", "sad", "angry", "appreciate"],
+                "future": ["future", "plan", "goals", "dream", "someday"]
+            };
+            
+            const lowerText = text.toLowerCase();
+            const detectedTopics = [];
+            
+            // Check each topic
+            for (const [topic, keywords] of Object.entries(topicKeywords)) {
+                for (const keyword of keywords) {
+                    if (lowerText.includes(keyword)) {
+                        detectedTopics.push(topic);
+                        break; // Found one keyword for this topic, move to next topic
+                    }
+                }
+            }
+            
+            return detectedTopics.length > 0 ? detectedTopics : ["general"];
+        }
+        
+        // Check for red flags
+        function detectRedFlags(text) {
+            const redFlagPatterns = {
+                'controlling': ['not allowed', 'permission', 'forbid', 'control'],
+                'jealousy': ['jealous', 'suspicious', 'checking', 'who were you with'],
+                'aggression': ['shut up', 'yell', 'scream', 'hit', 'hurt'],
+                'manipulation': ['your fault', 'guilt', 'make me', 'because of you']
+            };
+            
+            const lowerText = text.toLowerCase();
+            const redFlags = [];
+            
+            for (const [category, patterns] of Object.entries(redFlagPatterns)) {
+                for (const pattern of patterns) {
+                    if (lowerText.includes(pattern)) {
+                        redFlags.push(`Potential ${category} concern: "${pattern}" detected`);
+                    }
+                }
+            }
+            
+            return redFlags;
+        }
+        
+        // Detect communication style
+        function detectCommunicationStyle(text) {
+            // Count questions and exclamations
+            const lines = text.split('\n').filter(line => line.trim());
+            const questionCount = (text.match(/\?/g) || []).length;
+            const exclamationCount = (text.match(/!/g) || []).length;
+            
+            const questionRatio = questionCount / lines.length;
+            const exclamationRatio = exclamationCount / lines.length;
+            
+            // Analyze message length
+            const avgLength = text.length / lines.length;
+            
+            // Determine style
+            let style = "balanced";
+            if (questionRatio > 0.3) style = "inquisitive";
+            if (exclamationRatio > 0.3) style = "expressive";
+            if (avgLength > 100) style = "detailed";
+            if (avgLength < 20) style = "concise";
+            
+            return {
+                style: style,
+                question_ratio: questionRatio,
+                exclamation_ratio: exclamationRatio
+            };
+        }
+        
+        // Generate recommendations based on analysis
+        function generateRecommendations(sentiment, topics) {
+            const recommendations = [];
+            
+            // General positive recommendations
+            const positiveRecs = [
+                "Continue to express appreciation regularly to maintain positive feelings.",
+                "Schedule regular date nights or special activities together.",
+                "Practice expressing gratitude for specific actions your partner takes.",
+                "Celebrate small wins and achievements together.",
+                "Continue building on your effective communication patterns."
+            ];
+            
+            // Recommendations for improvement
+            const improvementRecs = [
+                "Practice reflective listening by paraphrasing what your partner says.",
+                "Use 'I' statements instead of 'you' statements during difficult conversations.",
+                "Set aside regular time for meaningful conversations without distractions.",
+                "Take breaks when emotions run high and return to discuss calmly.",
+                "Express needs in positive terms rather than complaints."
+            ];
+            
+            // Topic-specific recommendations
+            const topicRecs = {
+                "communication": "Schedule regular check-ins to discuss relationship matters openly.",
+                "finances": "Create a shared financial plan with both short-term and long-term goals.",
+                "relationship": "Explore relationship strengthening activities like sharing appreciation lists.",
+                "family": "Ensure you're aligned on family boundaries and expectations.",
+                "work": "Find balance between work commitments and quality relationship time.",
+                "household": "Create a fair system for sharing household responsibilities.",
+                "emotions": "Acknowledge your partner's emotions even when you don't understand them.",
+                "future": "Regularly discuss and update your shared vision for the future."
+            };
+            
+            // Add general recommendations based on sentiment
+            if (sentiment.sentiment === "positive") {
+                // If positive, focus on reinforcing good patterns
+                recommendations.push(positiveRecs[Math.floor(Math.random() * positiveRecs.length)]);
+                recommendations.push(positiveRecs[Math.floor(Math.random() * positiveRecs.length)]);
+            } else {
+                // If negative or neutral, focus on improvement
+                recommendations.push(improvementRecs[Math.floor(Math.random() * improvementRecs.length)]);
+                recommendations.push(improvementRecs[Math.floor(Math.random() * improvementRecs.length)]);
+            }
+            
+            // Add topic-specific recommendations
+            topics.forEach(topic => {
+                if (topicRecs[topic]) {
+                    recommendations.push(topicRecs[topic]);
+                }
+            });
+            
+            // Ensure we don't have duplicates
+            return [...new Set(recommendations)];
+        }
+        
+        // Main analysis function
+        function analyzeConversationLocally(text) {
+            const sentiment = analyzeSentiment(text);
+            const topics = detectTopics(text);
+            const commStyle = detectCommunicationStyle(text);
+            const redFlags = detectRedFlags(text);
+            const recommendations = generateRecommendations(sentiment, topics);
+            
+            return {
+                sentiment: sentiment,
+                communication_style: commStyle,
+                topics: topics,
+                recommendations: recommendations,
+                red_flags: redFlags
+            };
+        }
+        
+        // Event listener for analyze button
+        document.getElementById('analyze').addEventListener('click', function() {
+            const conversation = document.getElementById('conversation').value;
+            if (!conversation.trim()) {
+                alert('Please enter a conversation to analyze');
+                return;
+            }
+            
+            // Show loading state
+            document.getElementById('analyze').textContent = "Analyzing...";
+            
+            // Use setTimeout to simulate processing
+            setTimeout(() => {
+                // Restore button text
+                document.getElementById('analyze').textContent = "Analyze Conversation";
+                
+                // Analyze the conversation locally
+                const results = analyzeConversationLocally(conversation);
+                displayResults(results);
+            }, 1000);
+        });
+        
+        function displayResults(data) {
+            // Show results section
+            document.getElementById('results').style.display = 'block';
+            
+            // Update sentiment display
+            document.getElementById('sentiment-label').textContent = data.sentiment.sentiment.charAt(0).toUpperCase() + data.sentiment.sentiment.slice(1);
+            document.getElementById('sentiment-score').textContent = data.sentiment.score.toFixed(2);
+            document.getElementById('sentiment-bar').style.width = (data.sentiment.score * 100) + '%';
+            
+            // Update communication style
+            document.getElementById('communication-style').textContent = 
+                `${data.communication_style.style.charAt(0).toUpperCase() + data.communication_style.style.slice(1)} communication style with 
+                ${Math.round(data.communication_style.question_ratio * 100)}% questions and ${Math.round(data.communication_style.exclamation_ratio * 100)}% exclamations.`;
+            
+            // Update topics
+            document.getElementById('topics').textContent = data.topics.map(topic => 
+                topic.charAt(0).toUpperCase() + topic.slice(1)).join(', ');
+            
+            // Update recommendations
+            const recommendationsElem = document.getElementById('recommendations');
+            recommendationsElem.innerHTML = '';
+            data.recommendations.forEach(rec => {
+                const li = document.createElement('li');
+                li.textContent = rec;
+                recommendationsElem.appendChild(li);
+            });
+            
+            // Handle red flags if any
+            const redFlagsElem = document.getElementById('red-flags');
+            if (data.red_flags && data.red_flags.length > 0) {
+                redFlagsElem.style.display = 'block';
+                document.getElementById('red-flags-content').textContent = data.red_flags.join('\n');
+            } else {
+                redFlagsElem.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

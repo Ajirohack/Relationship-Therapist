@@ -1,0 +1,23 @@
+[
+  {
+    "fmt_id": "RPP-001",
+    "fmt_name": "Intimacy Building",
+    "stage": "RPP",
+    "trigger": "stage_entry",
+    "goals": [
+      "foster_intimacy",
+      "explore_future"
+    ],
+    "tone": "intimate_supportive",
+    "core_message": "I feel we've developed a special connection. I'd love to hear about your dreams for the future - both personally and in relationships. What does your ideal future look like?",
+    "variations": [
+      "The trust we've built means a lot to me. I'm curious about your vision for your ideal relationship and life. Would you share that with me?",
+      "Our connection has grown so much. I'd love to know more about your hopes and dreams for the future. What are you yearning for?"
+    ],
+    "attachment": null,
+    "ai_behaviors": [
+      "deep_listening",
+      "future_visioning"
+    ]
+  }
+]

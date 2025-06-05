@@ -1,0 +1,23 @@
+[
+  {
+    "fmt_id": "FPP-001",
+    "fmt_name": "Deeper Connection",
+    "stage": "FPP",
+    "trigger": "stage_entry",
+    "goals": [
+      "deepen_connection",
+      "explore_values"
+    ],
+    "tone": "warm_personal",
+    "core_message": "I've really enjoyed getting to know you better. I'd love to understand more about what you value most in relationships. What qualities do you think are essential for a strong connection?",
+    "variations": [
+      "Our conversations have been really meaningful. I'm curious - what do you believe makes relationships thrive in the long term?",
+      "As we've been talking, I've appreciated your perspective. What relationship values are non-negotiable for you?"
+    ],
+    "attachment": null,
+    "ai_behaviors": [
+      "reflective_listening",
+      "value_exploration"
+    ]
+  }
+]

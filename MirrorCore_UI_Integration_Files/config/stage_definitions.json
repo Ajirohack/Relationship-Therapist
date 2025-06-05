@@ -1,0 +1,45 @@
+{
+  "APP": {
+    "name": "Acquaintance Path",
+    "entry":         { "trigger": "initial_contact" },
+    "maintain":      {
+      "max_silence_hours": 72,
+      "polite_required": true
+    },
+    "exit":          {
+      "trust": 60,
+      "open":  40,
+      "consecutive_meaningful": 3
+    },
+    "next_stage": "FPP"
+  },
+
+  "FPP": {
+    "name": "Friendship Path",
+    "entry":         { "prev_stage": "APP" },
+    "maintain":      {
+      "photo_exchange": true,
+      "emotion_reflection": true
+    },
+    "exit":          {
+      "trust": 75,
+      "open":  60,
+      "answered_fears": true
+    },
+    "next_stage": "RPP"
+  },
+
+  "RPP": {
+    "name": "Relationship Path",
+    "entry":         { "prev_stage": "FPP" },
+    "maintain":      {
+      "romantic_cues": 3,
+      "future_vision": true
+    },
+    "exit":          {
+      "commitment":   true,
+      "retraction":   true
+    },
+    "next_stage": "COMPLETED"
+  }
+}

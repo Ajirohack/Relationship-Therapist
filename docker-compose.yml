@@ -1,0 +1,106 @@
+# MirrorCore Relationship Therapist System
+# Docker Compose configuration for production deployment
+
+version: '3.8'
+
+services:
+  # Main application
+  relationship-therapist:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mirrorcore/relationship-therapist:latest
+    container_name: relationship-therapist
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-password}@db:5432/${DB_NAME:-relationship_therapist}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - HF_API_TOKEN=${HF_API_TOKEN:-}
+      - LOG_LEVEL=INFO
+      - WEB_CONCURRENCY=2
+      - MAX_WORKERS=4
+    volumes:
+      - relationship_data:/app/data
+      - relationship_logs:/app/logs
+    depends_on:
+      - db
+    networks:
+      - relationship_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Database
+  db:
+    image: postgres:15-alpine
+    container_name: relationship-therapist-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-password}
+      - POSTGRES_DB=${DB_NAME:-relationship_therapist}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - relationship_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-relationship_therapist}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Redis for caching and session management (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: relationship-therapist-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - relationship_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Nginx for SSL termination and static file serving (optional)
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: relationship-therapist-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./static:/usr/share/nginx/html/static
+    depends_on:
+      - relationship-therapist
+    networks:
+      - relationship_network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  relationship_data:
+  relationship_logs:
+  postgres_data:
+  redis_data:
+
+networks:
+  relationship_network:
+    driver: bridge

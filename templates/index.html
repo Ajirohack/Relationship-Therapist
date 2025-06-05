@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Human Simulator</title>
+    <link rel="stylesheet" href="/public/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="auth-container">
+      <div class="auth-panel">
+        <h1>Human Simulator</h1>
+        <p>Enter your 5-digit PIN to continue</p>
+        <div class="pin-input-container">
+          <input
+            type="password"
+            id="pin-input"
+            maxlength="5"
+            placeholder="00000"
+          />
+        </div>
+        <button id="login-button">Login</button>
+      </div>
+    </div>
+
+    <div id="main-container" class="hidden">
+      <div id="chat-container">
+        <div id="messages"></div>
+        <form id="chat-form">
+          <input
+            id="input"
+            type="text"
+            placeholder="Type a message…"
+            autocomplete="off"
+          />
+          <button type="submit">Send</button>
+        </form>
+        <div class="control-buttons">
+          <button class="icon-button" id="settings-toggle" title="Settings">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="3"></circle>
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+              ></path>
+            </svg>
+          </button>
+          <button
+            class="icon-button"
+            id="simulation-toggle"
+            title="Simulation Status"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+              <path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="settings-panel">
+      <div class="settings-group">
+        <h3>LLM Provider</h3>
+        <div class="settings-row">
+          <span class="settings-label">Provider</span>
+          <div class="settings-control">
+            <select id="llm-provider">
+              <option value="openai">OpenAI</option>
+              <option value="ollama">Ollama</option>
+              <option value="simulator" selected>Simulator</option>
+              <option value="huggingface">HuggingFace</option>
+              <option value="groq">Groq</option>
+              <option value="openrouter">OpenRouter</option>
+            </select>
+          </div>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">Model</span>
+          <div class="settings-control">
+            <select id="llm-model">
+              <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+              <option value="gpt-4">GPT-4</option>
+              <option value="llama2" selected>Llama 2</option>
+              <option value="mistral">Mistral</option>
+              <option value="claude">Claude</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h3>Simulation</h3>
+        <div class="settings-row">
+          <span class="settings-label">Learning Mode</span>
+          <div class="settings-control">
+            <label class="toggle-switch">
+              <input type="checkbox" id="learning-mode" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">Memory Retention</span>
+          <div class="settings-control">
+            <input
+              type="number"
+              id="memory-retention"
+              min="1"
+              max="100"
+              value="75"
+            />
+          </div>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">Personality</span>
+          <div class="settings-control">
+            <select id="personality-preset">
+              <option value="balanced" selected>Balanced</option>
+              <option value="empathetic">Empathetic</option>
+              <option value="analytical">Analytical</option>
+              <option value="creative">Creative</option>
+              <option value="humorous">Humorous</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h3>Advanced</h3>
+        <div class="settings-row">
+          <span class="settings-label">API Key</span>
+          <div class="settings-control">
+            <input type="text" id="api-key" placeholder="sk-..." />
+          </div>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">Debug Mode</span>
+          <div class="settings-control">
+            <label class="toggle-switch">
+              <input type="checkbox" id="debug-mode" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <button id="save-settings">Save Settings</button>
+    </div>
+
+    <div id="simulation-panel">
+      <div class="simulation-header">
+        <div class="simulation-title">Simulation Status</div>
+        <div class="simulation-status active">Active</div>
+      </div>
+      <div class="simulation-content">
+        <p>Current simulation: <strong>Human Interaction #42</strong></p>
+        <p>Time elapsed: <span id="sim-time">00:15:32</span></p>
+        <p>Personality traits active:</p>
+        <ul>
+          <li>Empathy: 85%</li>
+          <li>Curiosity: 92%</li>
+          <li>Patience: 78%</li>
+          <li>Humor: 65%</li>
+        </ul>
+        <p>
+          Current context: <em>Philosophical discussion about consciousness</em>
+        </p>
+        <p>Learning mode: <strong>Active</strong></p>
+        <p>Memory utilization: 42%</p>
+      </div>
+      <div class="simulation-controls">
+        <div class="control-buttons">
+          <button class="icon-button" id="pause-sim" title="Pause Simulation">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="6" y="5" width="4" height="14"></rect>
+              <rect x="14" y="5" width="4" height="14"></rect>
+            </svg>
+          </button>
+          <button class="icon-button" id="reset-sim" title="Reset Simulation">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+              ></path>
+              <path d="M3 3v5h5"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/public/app.js"></script>
+  </body>
+</html>

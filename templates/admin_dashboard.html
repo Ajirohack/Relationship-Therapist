@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirrorCore - Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/css/mirrorcore.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar glass">
+        <div class="nav-content">
+            <div class="nav-brand">🧠 MirrorCore - Admin</div>
+            
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link active" data-section="overview">Overview</a></li>
+                <li><a href="#" class="nav-link" data-section="users">Users</a></li>
+                <li><a href="#" class="nav-link" data-section="sessions">Sessions</a></li>
+                <li><a href="#" class="nav-link" data-section="analytics">Analytics</a></li>
+                <li><a href="#" class="nav-link" data-section="reviews">Reviews</a></li>
+                <li><a href="#" class="nav-link" data-section="system">System</a></li>
+            </ul>
+            
+            <div class="admin-actions">
+                <div class="status-indicator status-success">
+                    <span class="status-dot"></span>
+                    Admin Mode
+                </div>
+                <a href="/dashboard" class="btn btn-ghost">Exit Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Overview Section -->
+        <section id="overview-section" class="admin-section active">
+            <div class="section-header">
+                <h1>System Overview</h1>
+                <p>Monitor system health and key metrics</p>
+            </div>
+            
+            <!-- Key Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">👥</div>
+                    <div class="metric-content">
+                        <div class="metric-value" id="total-users">0</div>
+                        <div class="metric-label">Total Users</div>
+                        <div class="metric-change positive">+12% this month</div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">💬</div>
+                    <div class="metric-content">
+                        <div class="metric-value" id="active-sessions">0</div>
+                        <div class="metric-label">Active Sessions</div>
+                        <div class="metric-change positive">+8% today</div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-content">
+                        <div class="metric-value" id="total-analyses">0</div>
+                        <div class="metric-label">Analyses Completed</div>
+                        <div class="metric-change positive">+15% this week</div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">⭐</div>
+                    <div class="metric-content">
+                        <div class="metric-value" id="avg-rating">4.8</div>
+                        <div class="metric-label">Average Rating</div>
+                        <div class="metric-change positive">+0.2 this month</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>User Activity</h3>
+                        <select id="activity-period">
+                            <option value="7d">Last 7 days</option>
+                            <option value="30d">Last 30 days</option>
+                            <option value="90d">Last 90 days</option>
+                        </select>
+                    </div>
+                    <canvas id="activity-chart"></canvas>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Session Distribution</h3>
+                    </div>
+                    <canvas id="session-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Users Section -->
+        <section id="users-section" class="admin-section">
+            <div class="section-header">
+                <h1>User Management</h1>
+                <div class="section-actions">
+                    <input type="text" id="user-search" placeholder="Search users..." class="search-input">
+                    <button class="btn btn-primary" id="add-user-btn">Add User</button>
+                </div>
+            </div>
+            
+            <div class="users-table-container">
+                <table class="admin-table" id="users-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Last Login</th>
+                            <th>Sessions</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                        <!-- Users will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sessions Section -->
+        <section id="sessions-section" class="admin-section">
+            <div class="section-header">
+                <h1>Session Management</h1>
+                <div class="section-actions">
+                    <select id="session-filter">
+                        <option value="all">All Sessions</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                        <option value="pending">Pending Review</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="sessions-grid" id="sessions-grid">
+                <!-- Sessions will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics-section" class="admin-section">
+            <div class="section-header">
+                <h1>Advanced Analytics</h1>
+                <p>Deep insights into system performance and user behavior</p>
+            </div>
+            
+            <div class="analytics-dashboard">
+                <div class="analytics-card">
+                    <h3>Trust & Openness Scores</h3>
+                    <canvas id="trust-scores-chart"></canvas>
+                </div>
+                
+                <div class="analytics-card">
+                    <h3>Communication Patterns</h3>
+                    <canvas id="communication-chart"></canvas>
+                </div>
+                
+                <div class="analytics-card">
+                    <h3>Relationship Health Trends</h3>
+                    <canvas id="health-trends-chart"></canvas>
+                </div>
+                
+                <div class="analytics-card">
+                    <h3>AI Recommendation Accuracy</h3>
+                    <canvas id="accuracy-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section id="reviews-section" class="admin-section">
+            <div class="section-header">
+                <h1>Review Metrics</h1>
+                <p>Monitor and evaluate relationship analysis quality</p>
+            </div>
+            
+            <div class="review-metrics">
+                <div class="review-card">
+                    <h3>Pending Reviews</h3>
+                    <div class="review-list" id="pending-reviews">
+                        <!-- Pending reviews will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <h3>Quality Metrics</h3>
+                    <div class="quality-metrics">
+                        <div class="quality-item">
+                            <span class="quality-label">Analysis Accuracy</span>
+                            <div class="quality-bar">
+                                <div class="quality-fill" style="width: 92%"></div>
+                            </div>
+                            <span class="quality-value">92%</span>
+                        </div>
+                        
+                        <div class="quality-item">
+                            <span class="quality-label">User Satisfaction</span>
+                            <div class="quality-bar">
+                                <div class="quality-fill" style="width: 88%"></div>
+                            </div>
+                            <span class="quality-value">88%</span>
+                        </div>
+                        
+                        <div class="quality-item">
+                            <span class="quality-label">Response Time</span>
+                            <div class="quality-bar">
+                                <div class="quality-fill" style="width: 95%"></div>
+                            </div>
+                            <span class="quality-value">95%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Section -->
+        <section id="system-section" class="admin-section">
+            <div class="section-header">
+                <h1>System Management</h1>
+                <p>Monitor system health and manage configurations</p>
+            </div>
+            
+            <div class="system-grid">
+                <div class="system-card">
+                    <h3>System Health</h3>
+                    <div class="health-indicators">
+                        <div class="health-item">
+                            <span class="health-label">API Status</span>
+                            <span class="health-status online">Online</span>
+                        </div>
+                        <div class="health-item">
+                            <span class="health-label">Database</span>
+                            <span class="health-status online">Connected</span>
+                        </div>
+                        <div class="health-item">
+                            <span class="health-label">AI Service</span>
+                            <span class="health-status online">Active</span>
+                        </div>
+                        <div class="health-item">
+                            <span class="health-label">Cache</span>
+                            <span class="health-status online">Running</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="system-card">
+                    <h3>Configuration</h3>
+                    <div class="config-actions">
+                        <button class="btn btn-secondary">Backup Database</button>
+                        <button class="btn btn-secondary">Clear Cache</button>
+                        <button class="btn btn-secondary">Export Logs</button>
+                        <button class="btn btn-warning">Restart Services</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="user-modal-title">Add User</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="user-form">
+                    <div class="form-group">
+                        <label for="user-email">Email</label>
+                        <input type="email" id="user-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-username">Username</label>
+                        <input type="text" id="user-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-role">Role</label>
+                        <select id="user-role">
+                            <option value="user">User</option>
+                            <option value="premium">Premium</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-password">Password</label>
+                        <input type="password" id="user-password" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-user">Cancel</button>
+                <button class="btn btn-primary" id="save-user">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/admin-dashboard.js"></script>
+</body>
+</html>

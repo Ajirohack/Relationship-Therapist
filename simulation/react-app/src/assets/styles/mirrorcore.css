@@ -1,0 +1,458 @@
+/* MirrorCore CSS - Copied from frontend/assets/styles/mirrorcore.css */
+
+:root {
+  /* Color Palette */
+  --mirrorcore-primary: #4a6fa5;
+  --mirrorcore-primary-light: #6b8cb5;
+  --mirrorcore-primary-dark: #3a5a8c;
+  --mirrorcore-secondary: #f8f9fa;
+  --mirrorcore-text: #333333;
+  --mirrorcore-text-light: #666666;
+  --mirrorcore-background: #f8f9fa;
+  --mirrorcore-border: #e1e4e8;
+  
+  /* Stage Colors */
+  --mirrorcore-stage-app: #4a6fa5; /* Acquaintance Path */
+  --mirrorcore-stage-fpp: #5e9e6f; /* Friendship Path */
+  --mirrorcore-stage-rpp: #d48c45; /* Relationship Path */
+  
+  /* Metric Colors */
+  --mirrorcore-trust: #4a6fa5;
+  --mirrorcore-openness: #5e9e6f;
+  
+  /* Spacing */
+  --mirrorcore-spacing-xs: 4px;
+  --mirrorcore-spacing-sm: 8px;
+  --mirrorcore-spacing-md: 16px;
+  --mirrorcore-spacing-lg: 24px;
+  --mirrorcore-spacing-xl: 32px;
+  
+  /* Border Radius */
+  --mirrorcore-radius-sm: 4px;
+  --mirrorcore-radius-md: 8px;
+  --mirrorcore-radius-lg: 12px;
+  
+  /* Shadows */
+  --mirrorcore-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --mirrorcore-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --mirrorcore-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Global Styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: var(--mirrorcore-text);
+  background-color: var(--mirrorcore-background);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.mirrorcore-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--mirrorcore-spacing-md);
+}
+
+/* Header */
+.mirrorcore-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--mirrorcore-spacing-md);
+  background-color: white;
+  border-bottom: 1px solid var(--mirrorcore-border);
+}
+
+.mirrorcore-back-button {
+  background: none;
+  border: none;
+  color: var(--mirrorcore-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: var(--mirrorcore-spacing-xs) var(--mirrorcore-spacing-sm);
+}
+
+.mirrorcore-back-button:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+.mirrorcore-footer {
+  text-align: center;
+  padding: var(--mirrorcore-spacing-md);
+  color: var(--mirrorcore-text-light);
+  font-size: 12px;
+  border-top: 1px solid var(--mirrorcore-border);
+  margin-top: var(--mirrorcore-spacing-xl);
+}
+
+/* Buttons */
+.mirrorcore-button {
+  padding: var(--mirrorcore-spacing-sm) var(--mirrorcore-spacing-md);
+  border-radius: var(--mirrorcore-radius-sm);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.mirrorcore-button-primary {
+  background-color: var(--mirrorcore-primary);
+  color: white;
+  border: none;
+}
+
+.mirrorcore-button-primary:hover {
+  background-color: var(--mirrorcore-primary-dark);
+}
+
+/* Dashboard */
+.mirrorcore-dashboard {
+  padding: var(--mirrorcore-spacing-lg);
+}
+
+.mirrorcore-dashboard-title {
+  font-size: 24px;
+  margin-bottom: var(--mirrorcore-spacing-lg);
+  color: var(--mirrorcore-text);
+}
+
+.mirrorcore-session-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--mirrorcore-spacing-md);
+}
+
+.mirrorcore-session-card {
+  background-color: white;
+  border-radius: var(--mirrorcore-radius-md);
+  box-shadow: var(--mirrorcore-shadow-sm);
+  padding: var(--mirrorcore-spacing-md);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.mirrorcore-session-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--mirrorcore-shadow-md);
+}
+
+.mirrorcore-session-date {
+  color: var(--mirrorcore-text-light);
+  font-size: 12px;
+  margin-bottom: var(--mirrorcore-spacing-sm);
+}
+
+.mirrorcore-stage-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.mirrorcore-stage-app {
+  background-color: var(--mirrorcore-stage-app);
+}
+
+.mirrorcore-stage-fpp {
+  background-color: var(--mirrorcore-stage-fpp);
+}
+
+.mirrorcore-stage-rpp {
+  background-color: var(--mirrorcore-stage-rpp);
+}
+
+.mirrorcore-session-metrics {
+  margin-top: var(--mirrorcore-spacing-md);
+}
+
+.mirrorcore-metric {
+  margin-bottom: var(--mirrorcore-spacing-sm);
+}
+
+.mirrorcore-metric-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.mirrorcore-metric-value {
+  color: var(--mirrorcore-text-light);
+}
+
+.mirrorcore-progress-bar {
+  height: 6px;
+  background-color: var(--mirrorcore-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.mirrorcore-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.mirrorcore-progress-trust {
+  background-color: var(--mirrorcore-trust);
+}
+
+.mirrorcore-progress-openness {
+  background-color: var(--mirrorcore-openness);
+}
+
+.mirrorcore-session-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: var(--mirrorcore-spacing-sm);
+}
+
+.mirrorcore-flag {
+  font-size: 10px;
+  padding: 2px 6px;
+  background-color: var(--mirrorcore-secondary);
+  border-radius: 10px;
+  color: var(--mirrorcore-text-light);
+}
+
+/* Chat Interface */
+.mirrorcore-chat {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 800px;
+  background-color: white;
+  border-radius: var(--mirrorcore-radius-lg);
+  box-shadow: var(--mirrorcore-shadow-md);
+  overflow: hidden;
+}
+
+.mirrorcore-chat-header {
+  padding: var(--mirrorcore-spacing-md);
+  border-bottom: 1px solid var(--mirrorcore-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mirrorcore-chat-title {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--mirrorcore-spacing-sm);
+}
+
+.mirrorcore-chat-stage {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  color: white;
+}
+
+.mirrorcore-chat-metrics {
+  display: flex;
+  gap: var(--mirrorcore-spacing-md);
+}
+
+.mirrorcore-chat-metric {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--mirrorcore-text-light);
+}
+
+.mirrorcore-chat-messages {
+  flex: 1;
+  padding: var(--mirrorcore-spacing-md);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mirrorcore-spacing-md);
+}
+
+.mirrorcore-message {
+  max-width: 80%;
+  padding: var(--mirrorcore-spacing-sm) var(--mirrorcore-spacing-md);
+  border-radius: var(--mirrorcore-radius-md);
+  position: relative;
+}
+
+.mirrorcore-message-user {
+  align-self: flex-end;
+  background-color: var(--mirrorcore-primary-light);
+  color: white;
+  border-bottom-right-radius: 0;
+}
+
+.mirrorcore-message-bot {
+  align-self: flex-start;
+  background-color: var(--mirrorcore-secondary);
+  border-bottom-left-radius: 0;
+}
+
+.mirrorcore-message-time {
+  font-size: 10px;
+  color: var(--mirrorcore-text-light);
+  margin-top: 4px;
+  text-align: right;
+}
+
+.mirrorcore-message-error {
+  align-self: center;
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border-radius: var(--mirrorcore-radius-sm);
+  padding: var(--mirrorcore-spacing-xs) var(--mirrorcore-spacing-md);
+  font-size: 12px;
+  max-width: 90%;
+  text-align: center;
+}
+
+.mirrorcore-typing-indicator {
+  align-self: flex-start;
+  background-color: var(--mirrorcore-secondary);
+  border-radius: var(--mirrorcore-radius-md);
+  padding: var(--mirrorcore-spacing-sm) var(--mirrorcore-spacing-md);
+  border-bottom-left-radius: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mirrorcore-typing-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--mirrorcore-text-light);
+  border-radius: 50%;
+  animation: typing-animation 1.4s infinite ease-in-out;
+}
+
+.mirrorcore-typing-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.mirrorcore-typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.mirrorcore-typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing-animation {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.mirrorcore-empty-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--mirrorcore-text-light);
+  text-align: center;
+  padding: var(--mirrorcore-spacing-xl);
+}
+
+.mirrorcore-empty-chat-icon {
+  font-size: 48px;
+  margin-bottom: var(--mirrorcore-spacing-md);
+  color: var(--mirrorcore-primary-light);
+}
+
+.mirrorcore-empty-chat-title {
+  font-size: 18px;
+  margin-bottom: var(--mirrorcore-spacing-sm);
+  color: var(--mirrorcore-text);
+}
+
+.mirrorcore-empty-chat-text {
+  font-size: 14px;
+  max-width: 400px;
+}
+
+.mirrorcore-chat-input {
+  padding: var(--mirrorcore-spacing-md);
+  border-top: 1px solid var(--mirrorcore-border);
+  display: flex;
+  gap: var(--mirrorcore-spacing-sm);
+}
+
+.mirrorcore-chat-textarea {
+  flex: 1;
+  border: 1px solid var(--mirrorcore-border);
+  border-radius: var(--mirrorcore-radius-md);
+  padding: var(--mirrorcore-spacing-sm);
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+  min-height: 40px;
+  max-height: 120px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.mirrorcore-chat-textarea:focus {
+  border-color: var(--mirrorcore-primary-light);
+}
+
+.mirrorcore-send-button {
+  background-color: var(--mirrorcore-primary);
+  color: white;
+  border: none;
+  border-radius: var(--mirrorcore-radius-md);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.mirrorcore-send-button:hover {
+  background-color: var(--mirrorcore-primary-dark);
+}
+
+.mirrorcore-send-button:disabled {
+  background-color: var(--mirrorcore-text-light);
+  cursor: not-allowed;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .mirrorcore-session-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .mirrorcore-chat {
+    height: calc(100vh - 40px);
+    max-height: none;
+    border-radius: 0;
+  }
+  
+  .mirrorcore-chat-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--mirrorcore-spacing-sm);
+  }
+  
+  .mirrorcore-chat-metrics {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

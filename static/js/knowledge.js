@@ -1,5 +1,5 @@
 /**
- * MirrorCore Relationship Therapist - Knowledge Base
+ * Core Engine Relationship Therapist - Knowledge Base
  * Handles knowledge base article listing, filtering, and rendering
  */
 

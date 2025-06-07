@@ -1,5 +1,5 @@
 /**
- * MirrorCore Chat UI
+ * Core Engine Chat UI
  * Handles all chat functionality for the Relationship Therapist System
  */
 
@@ -472,7 +472,7 @@ async function getAIResponse(message) {
     // For demo, we'll use the mock API
     try {
         // Call API
-        const response = await window.mirrorCoreAPI.sendMessage(message);
+        const response = await window.coreEngineAPI.sendMessage(message);
         return response.message || "I'm not sure how to respond to that.";
     } catch (error) {
         console.error('Error getting AI response:', error);
@@ -510,7 +510,7 @@ async function analyzeCurrentConversation() {
             }));
 
         // Call API for analysis
-        const analysisResult = await window.mirrorCoreAPI.analyzeConversation({
+        const analysisResult = await window.coreEngineAPI.analyzeConversation({
             conversation: messages,
             analysis_type: 'comprehensive'
         });
@@ -928,7 +928,7 @@ async function testAPIConnection() {
 
     try {
         // Call API test endpoint
-        const result = await window.mirrorCoreAPI.testConnection({
+        const result = await window.coreEngineAPI.testConnection({
             provider,
             apiKey,
             model,

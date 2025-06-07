@@ -1,7 +1,7 @@
 {
-  "name": "mirrorcore-relationship-therapist",
+  "name": "core-engine-relationship-therapist",
   "version": "1.0.0",
-  "description": "MirrorCore Relationship Therapist System with modern UI and AI-powered analysis",
+  "description": "Core Engine Relationship Therapist System with modern UI and AI-powered analysis",
   "main": "index.js",
   "scripts": {
     "start": "python main_simple.py",
@@ -15,11 +15,11 @@
     "lint": "eslint static/js/*.js",
     "format": "prettier --write static/js/*.js static/css/*.css templates/*.html"
   },
-  "author": "MirrorCore Team",
+  "author": "Core Engine Team",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mirrorcore/relationship-therapist"
+    "url": "https://github.com/core-engine/relationship-therapist"
   },
   "keywords": [
     "relationship",
@@ -30,7 +30,7 @@
     "communication-patterns",
     "dashboard",
     "analytics",
-    "mirrorcore",
+    "core-engine",
     "fastapi"
   ],
   "dependencies": {

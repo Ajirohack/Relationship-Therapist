@@ -1,4 +1,4 @@
-# MirrorCore Relationship Therapist System
+# Core Engine Relationship Therapist System
 # Docker Compose configuration for production deployment
 
 version: '3.8'
@@ -9,7 +9,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: mirrorcore/relationship-therapist:latest
+    image: core-engine/relationship-therapist:latest
     container_name: relationship-therapist
     restart: unless-stopped
     ports:

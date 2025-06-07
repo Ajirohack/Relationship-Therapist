@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Simplified Relationship Therapist System - For MirrorCore UI Demo
+Simplified Relationship Therapist System - For Core Engine UI Demo
 """
 
 import asyncio
@@ -39,7 +39,7 @@ cache_service = CacheService()
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="MirrorCore Relationship Therapist",
+    title="Core Engine Relationship Therapist",
     description="AI-powered relationship analysis and therapy assistance",
     version="1.0.0"
 )
@@ -138,11 +138,11 @@ async def dashboard(request: Request):
 
 @app.get("/ui", response_class=HTMLResponse)
 async def ui_demo(request: Request):
-    return templates.TemplateResponse("mirrorcore_dashboard.html", {"request": request})
+    return templates.TemplateResponse("core_engine_dashboard.html", {"request": request})
 
 @app.get("/app", response_class=HTMLResponse)
 async def app_interface(request: Request):
-    return templates.TemplateResponse("mirrorcore_dashboard.html", {"request": request})
+    return templates.TemplateResponse("core_engine_dashboard.html", {"request": request})
 
 @app.get("/settings")
 async def settings_page(request: Request):
@@ -720,7 +720,7 @@ if __name__ == "__main__":
     os.makedirs("static", exist_ok=True)
     os.makedirs("templates", exist_ok=True)
     
-    logger.info("Starting MirrorCore Relationship Therapist System...")
+    logger.info("Starting Core Engine Relationship Therapist System...")
     uvicorn.run(
         app,
         host="127.0.0.1",

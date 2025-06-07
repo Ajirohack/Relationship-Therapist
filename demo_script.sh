@@ -1,8 +1,8 @@
 #!/bin/bash
-# MirrorCore Relationship Therapist System - Comprehensive Feature Demo Script
+# Core Engine Relationship Therapist System - Comprehensive Feature Demo Script
 # Updated: June 4, 2025
 
-echo "🧠 MirrorCore Relationship Therapist System - Feature Demo"
+echo "🧠 Core Engine Relationship Therapist System - Feature Demo"
 echo "=========================================================="
 
 BASE_URL="http://127.0.0.1:8000"

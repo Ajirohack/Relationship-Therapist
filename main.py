@@ -37,6 +37,18 @@ from vector_db import VectorDBService
 from cache_service import CacheManager
 from task_service import AsyncTaskManager
 
+# Import AI Brain Integration
+from ai_brain import (
+    AIBrainIntegration,
+    initialize_ai_brain_integration,
+    UserInputRequest,
+    DiegoResponse,
+    SessionStatusResponse,
+    PerformanceSummaryResponse,
+    create_ai_brain_routes,
+    setup_ai_brain_logging
+)
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -69,6 +81,15 @@ ai_service = AIService()
 vector_db_manager = VectorDBService()
 cache_manager = CacheManager(settings)
 task_manager = AsyncTaskManager(settings)
+
+# Initialize AI Brain Integration
+ai_brain_integration = None
+try:
+    ai_brain_integration = initialize_ai_brain_integration(settings)
+    logger.info("AI Brain integration initialized successfully")
+except Exception as e:
+    logger.warning(f"AI Brain integration failed, falling back to legacy AI service: {e}")
+    ai_brain_integration = None
 
 # Initialize existing components (updated to use new services)
 conversation_analyzer = ConversationAnalyzer()
@@ -313,7 +334,7 @@ async def analyze_conversation(
     current_user: User = Depends(get_current_active_user)
 ):
     """
-    Analyze conversation history with enhanced AI
+    Analyze conversation history with enhanced AI (AI Brain or legacy fallback)
     """
     try:
         # Verify user owns the conversation or has permission
@@ -326,19 +347,77 @@ async def analyze_conversation(
         if cached_result:
             return cached_result
         
-        # Enhanced AI analysis
-        analysis_result = await ai_service.analyze_conversation(
-            conversation_data=request.conversation_history,
-            user_id=request.user_id,
-            analysis_type=request.analysis_type
-        )
-        
-        if request.include_recommendations:
-            recommendations = await ai_therapist.generate_recommendations(
+        # Try AI Brain first, fallback to legacy AI service
+        if ai_brain_integration:
+            try:
+                # Use AI Brain for enhanced analysis
+                therapeutic_request = TherapeuticAnalysisRequest(
+                    user_id=request.user_id,
+                    conversation_history=request.conversation_history,
+                    analysis_depth="comprehensive" if request.analysis_type == "comprehensive" else "intermediate",
+                    include_recommendations=request.include_recommendations,
+                    include_homework=True,
+                    include_resources=True
+                )
+                
+                brain_analysis = await ai_brain_integration.analyze_session(therapeutic_request, current_user)
+                
+                # Convert AI Brain response to legacy format
+                analysis_result = {
+                    "communication_patterns": brain_analysis.communication_patterns,
+                    "emotional_profile": brain_analysis.emotional_profile,
+                    "relationship_stage": brain_analysis.relationship_stage,
+                    "progress_indicators": brain_analysis.progress_indicators,
+                    "insights": brain_analysis.key_insights,
+                    "safety_assessment": {
+                        "status": brain_analysis.safety_status,
+                        "risk_factors": brain_analysis.risk_factors,
+                        "protective_factors": brain_analysis.protective_factors
+                    },
+                    "quality_metrics": {
+                        "session_quality": brain_analysis.session_quality,
+                        "engagement_level": brain_analysis.engagement_level,
+                        "therapeutic_alliance": brain_analysis.therapeutic_alliance
+                    }
+                }
+                
+                if request.include_recommendations:
+                    analysis_result["recommendations"] = brain_analysis.therapeutic_recommendations
+                    analysis_result["homework_assignments"] = brain_analysis.homework_assignments
+                    analysis_result["resource_recommendations"] = brain_analysis.resource_recommendations
+                    analysis_result["follow_up_plan"] = brain_analysis.follow_up_plan
+                
+                logger.info(f"AI Brain analysis completed for user {request.user_id}")
+                
+            except Exception as brain_error:
+                logger.warning(f"AI Brain analysis failed, falling back to legacy: {brain_error}")
+                # Fallback to legacy AI service
+                analysis_result = await ai_service.analyze_conversation(
+                    conversation_data=request.conversation_history,
+                    user_id=request.user_id,
+                    analysis_type=request.analysis_type
+                )
+                
+                if request.include_recommendations:
+                    recommendations = await ai_therapist.generate_recommendations(
+                        user_id=request.user_id,
+                        analysis=analysis_result
+                    )
+                    analysis_result["recommendations"] = recommendations
+        else:
+            # Use legacy AI service
+            analysis_result = await ai_service.analyze_conversation(
+                conversation_data=request.conversation_history,
                 user_id=request.user_id,
-                analysis=analysis_result
+                analysis_type=request.analysis_type
             )
-            analysis_result["recommendations"] = recommendations
+            
+            if request.include_recommendations:
+                recommendations = await ai_therapist.generate_recommendations(
+                    user_id=request.user_id,
+                    analysis=analysis_result
+                )
+                analysis_result["recommendations"] = recommendations
         
         # Store in database
         conversation_id = await database_manager.store_conversation(
@@ -352,7 +431,8 @@ async def analyze_conversation(
             "status": "success",
             "conversation_id": conversation_id,
             "analysis": analysis_result,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
+            "ai_brain_used": ai_brain_integration is not None
         }
         await cache_manager.conversation_cache.set(cache_key, result, expire=3600)
         

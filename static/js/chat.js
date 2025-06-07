@@ -1,5 +1,5 @@
 /**
- * MirrorCore Relationship Therapist - Chat Interface
+ * Core Engine Relationship Therapist - Chat Interface
  * Handles the chat UI interactions, message rendering, and API communication
  */
 
@@ -58,7 +58,7 @@ let settings = {
 };
 
 // Initialize API Client
-const api = new MirrorCoreAPI();
+const api = new CoreEngineAPI();
 
 // Initialize Charts
 let sentimentChart = null;

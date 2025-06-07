@@ -86,7 +86,7 @@ def start_server():
 async def main():
     """Main startup function"""
     logger.info("=" * 60)
-    logger.info("MirrorCore Relationship Therapist System - Enhanced Backend")
+    logger.info("Core Engine Relationship Therapist System - Enhanced Backend")
     logger.info("=" * 60)
     
     # Check dependencies

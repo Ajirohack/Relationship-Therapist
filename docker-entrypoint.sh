@@ -1,5 +1,5 @@
 #!/bin/bash
-# Docker entrypoint script for MirrorCore Relationship Therapist System
+# Docker entrypoint script for Core Engine Relationship Therapist System
 set -e
 
 # Function to wait for a service to be ready

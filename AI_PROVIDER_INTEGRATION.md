@@ -1,4 +1,4 @@
-# AI Provider Integration Guide for MirrorCore Relationship Therapist
+# AI Provider Integration Guide for Core Engine Relationship Therapist
 
 This guide explains how to integrate the Relationship Therapist system with various AI model providers for production use. The system is designed to be modular, allowing you to use different AI providers based on your requirements.
 
@@ -293,4 +293,4 @@ Before going live with your integration:
 
 ---
 
-For technical support with integrations, please contact the MirrorCore development team.
+For technical support with integrations, please contact the Core Engine development team.

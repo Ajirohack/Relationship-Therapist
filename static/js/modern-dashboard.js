@@ -135,7 +135,7 @@ class ModernDashboard {
                 <div class="activity-item">
                     <div class="activity-icon">📊</div>
                     <div class="activity-content">
-                        <div class="activity-title">Welcome to MirrorCore</div>
+                        <div class="activity-title">Welcome to Core Engine</div>
                         <div class="activity-time">Start your first analysis</div>
                     </div>
                 </div>
